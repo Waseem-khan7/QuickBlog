@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Bloglist from "../components/Bloglist";
 import NewsLetter from "../components/NewsLetter";
+import Footer from "../components/Footer";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
       <Header />
       <Bloglist />
       <NewsLetter />
+      <Footer />
     </>
   );
 }
