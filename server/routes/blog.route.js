@@ -2,7 +2,7 @@ import express from "express";
 import {
   addBlog,
   addComment,
-  deleteById,
+  deleteBlogById,
   getAllBlogs,
   getBlogById,
   getBlogComment,
@@ -16,7 +16,7 @@ const blogRouter = express.Router();
 blogRouter.post("/add", upload.single("image"), auth, addBlog);
 blogRouter.get("/all", getAllBlogs);
 blogRouter.get("/:blogId", getBlogById);
-blogRouter.delete("/delete", auth, deleteById);
+blogRouter.delete("/delete", auth, deleteBlogById);
 blogRouter.post("/toggle-publish", auth, togglePublish);
 blogRouter.post("/addComment", addComment);
 blogRouter.get("/comments", getBlogComment);
