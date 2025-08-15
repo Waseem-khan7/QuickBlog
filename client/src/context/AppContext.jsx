@@ -13,7 +13,7 @@ export const AppProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [input, setInput] = useState("");
-  
+
   const fetchData = async () => {
     try {
       const { data } = await axios.get(`/api/blog/all?search=${input}`);
@@ -41,7 +41,7 @@ export const AppProvider = ({ children }) => {
     setBlogs,
     input,
     setInput,
-    fetchData 
+    fetchData,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -182,6 +182,8 @@ const getBlogComment = async (req, res) => {
   }
 };
 
+const generateContent = async (req, res) => {};
+
 export {
   addBlog,
   getAllBlogs,
@@ -190,4 +192,5 @@ export {
   togglePublish,
   addComment,
   getBlogComment,
+  generateContent,
 };
