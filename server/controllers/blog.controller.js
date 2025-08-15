@@ -64,7 +64,18 @@ const addBlog = async (req, res) => {
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find({ isPublished: true });
+    const search = req.query.search;
+    const query = {
+      isPublished: true,
+    };
+    if (search) {
+      query.$or = [
+        { title: new RegExp(search, "i") },
+        { category: new RegExp(search, "i") },
+        { subTitle: new RegExp(search, "i") },
+      ];
+    }
+    const blogs = await Blog.find(query);
     res.status(200).json({ success: true, blogs });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -136,10 +147,16 @@ const togglePublish = async (req, res) => {
 const addComment = async (req, res) => {
   try {
     const { blog, name, content } = req.body;
+
+    if (!blog || !name || !content) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
     await Comment.create({ blog, name, content });
     res
       .status(201)
-      .json({ success: false, message: "Comment added for review" });
+      .json({ success: true, message: "Comment added for review" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -148,7 +165,15 @@ const addComment = async (req, res) => {
 const getBlogComment = async (req, res) => {
   try {
     const { blogId } = req.body;
-    const comments = Comment.find({ blog: blogId, isApproved: true }).sort({
+    if (!blogId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Blog ID is required" });
+    }
+    const comments = await Comment.find({
+      blog: blogId,
+      isApproved: true,
+    }).sort({
       createdAt: -1,
     });
     res.status(201).json({ success: true, comments });

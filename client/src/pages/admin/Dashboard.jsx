@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { assets, blog_data, dashboard_data } from "../../assets/assets";
 import BlogTableItem from "../../components/admin/BlogTableItem";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
+  const { axios, fetchData } = useAppContext();
+
+  const [dashboardData, setDashboardData] = useState({});
+
+  const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get("/api/admin/dashboard");
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+  console.log("dashboardData.recentBlogs data", dashboardData);
   return (
     <div className="flex-1 p-4 md:p-10  bg-blue-50/50">
       <div className="flex flex-wrap gap-4">
@@ -11,7 +34,7 @@ const Dashboard = () => {
           <img src={assets.dashboard_icon_1} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">
-              {dashboard_data.blogs}
+              {dashboardData?.blogs}
             </p>
             <p className="text-gray-400 font-light">Blogs</p>
           </div>
@@ -22,7 +45,7 @@ const Dashboard = () => {
           <img src={assets.dashboard_icon_2} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">
-              {dashboard_data.comments}
+              {dashboardData?.comments}
             </p>
             <p className="text-gray-400 font-light">Comments</p>
           </div>
@@ -33,7 +56,7 @@ const Dashboard = () => {
           <img src={assets.dashboard_icon_3} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">
-              {dashboard_data.drafts}
+              {dashboardData?.drafts?.length}
             </p>
             <p className="text-gray-400 font-light">Drafts</p>
           </div>
@@ -69,11 +92,11 @@ const Dashboard = () => {
             </thead>
 
             <tbody>
-              {dashboard_data.recentBlogs.map((blog, index) => (
+              {dashboardData?.recentBlogs?.map((blog, index) => (
                 <BlogTableItem
-                  key={blog._id}
+                  key={blog?._id}
                   blog={blog}
-                  fetchBlogs={blog_data}
+                  fetchBlogs={fetchDashboardData}
                   index={index + 1}
                 />
               ))}

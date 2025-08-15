@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
-function Header() {
+const Header = () => {
+  const { input, setInput } = useAppContext();
+  const inputRef = useRef(input);
+  // const [search, setSearch] = useState("");
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    setInput(inputRef.current.value);
+  };
+
   return (
-    <div className="mx-8 sm:mx-16 xl:mx:24 relative">
+    <div className="mx-8 sm:mx-16 xl:mx-24 relative">
       <div className="text-center mt-20 mb-8">
         <div className="inline-flex items-center justify-center gap-4 px-6 py-1.5 mb-4 border border-primary/40 bg-primary/10 rounded-full text-sm">
           <p>New: AI Feature Integrated</p>
@@ -19,16 +29,22 @@ function Header() {
           write without filters. Whether it's one word or thousand, your story
           starts right here.
         </p>
-        <form className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden">
+        <form
+          onSubmit={onSubmitHandler}
+          className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden"
+        >
           <input
+            // value={inputRef.current.value}
+            ref={inputRef}
+            // onChange={(e) => setInput(e.target.value)}
             type="text"
             placeholder="Search your blogs"
-            required
+            aria-label="Search blogs"
             className="w-full pl-4 outline-none"
           />
           <button
             type="submit"
-            className="bg-primary text-white px-8 py-2 m-1.5 rounded hover: scale-105 transition-all cursor-pointer"
+            className="bg-primary text-white px-8 py-2 m-1.5 rounded hover:scale-105 transition-all cursor-pointer"
           >
             Search
           </button>
@@ -41,6 +57,6 @@ function Header() {
       />
     </div>
   );
-}
+};
 
 export default Header;
