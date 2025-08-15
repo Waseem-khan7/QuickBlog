@@ -8,7 +8,7 @@ function Comments() {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("Approved");
 
-  const { axios } = useAppContext;
+  const { axios } = useAppContext();
 
   const fetchComments = async () => {
     try {
@@ -26,6 +26,8 @@ function Comments() {
   useEffect(() => {
     fetchComments();
   }, []);
+
+  // console.log("All comments in parent:", comments);
 
   return (
     <div className="flex-1 pt-5 px-5 sm:pl-16 bg-blue-50/50">
@@ -69,7 +71,7 @@ function Comments() {
             {comments
               .filter((comment) => {
                 if (filter === "Approved") return comment.isApproved === true;
-                return comment.isApproved === false;
+                return comment.isApproved !== true; // shows false or undefined
               })
               .map((comment, index) => (
                 <CommentTableItem
