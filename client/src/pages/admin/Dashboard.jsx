@@ -21,7 +21,7 @@ const Dashboard = () => {
       toast.error(error.message);
     }
   };
-
+console.log("dashboardData",dashboardData)
   useEffect(() => {
     fetchDashboardData();
   }, []);
@@ -62,46 +62,49 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div >
         <div className="flex items-center gap-3 m-4 mt-6 text-gray-600">
           <img src={assets.dashboard_icon_4} alt="" />
           <p>Latest Blogs</p>
         </div>
 
         {/* Blog Table */}
-        <div className="relative max-w-4xl overflow-auto shadow rounded-lg scrollbar-hide bg-white">
-          <table className="w-full text-sm text-gray-500">
-            <thead className="text-xs text-gray-600 text-left uppercase">
-              <tr>
-                <th scope="col" className="px-2 py-4 xl-px-6">
-                  #
-                </th>
-                <th scope="col" className="px-2 py-4">
-                  Blog Title
-                </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  Date
-                </th>
-                <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  Status
-                </th>
-                <th scope="col" className="px-2 py-4">
-                  Actions
-                </th>
-              </tr>
-            </thead>
+        <div className="relative max-w-4xl shadow rounded-lg bg-white">
+          {/* Scroll container */}
+          <div className="max-h-76 overflow-y-auto scrollbar-hide">
+            <table className="w-full text-sm text-gray-500">
+              <thead className="text-xs text-gray-600 text-left uppercase sticky top-0 bg-white z-10">
+                <tr>
+                  <th scope="col" className="px-2 py-4 xl:px-6">
+                    #
+                  </th>
+                  <th scope="col" className="px-2 py-4">
+                    Blog Title
+                  </th>
+                  <th scope="col" className="px-2 py-4 max-sm:hidden">
+                    Date
+                  </th>
+                  <th scope="col" className="px-2 py-4 max-sm:hidden">
+                    Status
+                  </th>
+                  <th scope="col" className="px-2 py-4">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {dashboardData?.recentBlogs?.map((blog, index) => (
-                <BlogTableItem
-                  key={blog?._id}
-                  blog={blog}
-                  fetchBlogs={fetchDashboardData}
-                  index={index + 1}
-                />
-              ))}
-            </tbody>
-          </table>
+              <tbody>
+                {dashboardData?.recentBlogs?.map((blog, index) => (
+                  <BlogTableItem
+                    key={blog?._id}
+                    blog={blog}
+                    fetchBlogs={fetchDashboardData}
+                    index={index + 1}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

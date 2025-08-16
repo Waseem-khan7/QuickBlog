@@ -42,7 +42,7 @@ const getAllComments = async (req, res) => {
 
 const getDashboard = async (req, res) => {
   try {
-    const recentBlogs = await Blog.find({}).sort({ createdAt: -1 }).limit(5);
+    const recentBlogs = await Blog.find({}).sort({ createdAt: -1 });
     const blogs = await Blog.countDocuments();
     const comments = await Comment.countDocuments();
     const drafts = await Blog.find({ isPublished: false });
