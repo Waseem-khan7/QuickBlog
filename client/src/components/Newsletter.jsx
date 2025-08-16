@@ -1,6 +1,6 @@
 import React from "react";
 
-function NewsLetter() {
+function Newsletter() {
   return (
     <div className="flex flex-col items-center justify-center text-center space-y-2 my-32 ">
       <h1 className="md:text-4xl text-2xl font-semibold">Never Miss a Blog</h1>
@@ -25,4 +25,4 @@ function NewsLetter() {
   );
 }
 
-export default NewsLetter;
+export default Newsletter;
