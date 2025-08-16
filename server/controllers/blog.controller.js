@@ -2,6 +2,7 @@ import fs from "fs";
 import imagekit from "../config/imageKit.js";
 import Blog from "../models/blog.model.js";
 import Comment from "../models/comment.model.js";
+import main from "../config/gemini.js";
 
 const addBlog = async (req, res) => {
   try {
@@ -182,7 +183,18 @@ const getBlogComment = async (req, res) => {
   }
 };
 
-const generateContent = async (req, res) => {};
+const generateContent = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const content = await main(
+      `${prompt}. Write only the blog post content in simple text format. 
+   Do NOT include introductions like "Here’s a blog post" or "In summary".`
+    );
+    res.status(201).json({ success: true, content });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export {
   addBlog,
